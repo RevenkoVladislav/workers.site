@@ -2,13 +2,16 @@
     <div>
         @foreach($workers as $worker)
             <div>
-                <div>Name: <a href="{{ route('workers.show', $worker) }}">{{ $worker->name }}</a></div>
+                <div>Name: {{ $worker->name }}</div>
                 <div>Surname: {{ $worker->surname }}</div>
                 <div>Email: {{ $worker->email }}</div>
                 <div>Age: {{ $worker->age }}</div>
                 <div>Phone: {{ $worker->phone }}</div>
                 <div>Description: {{ $worker->description }}</div>
                 <div>Is married:{{ $worker->is_married }}</div>
+                <div>
+                    <a href="{{ route('workers.show', $worker) }}">Посмотреть</a>
+                </div>
             </div>
             <hr>
         @endforeach

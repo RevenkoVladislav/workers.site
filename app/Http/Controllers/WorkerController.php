@@ -16,7 +16,7 @@ class WorkerController extends Controller
 
     public function create()
     {
-        //
+        return view('worker.create');
     }
 
     public function store(StoreUpdateRequest $request)
