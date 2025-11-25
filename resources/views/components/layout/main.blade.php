@@ -1,6 +1,7 @@
 @props([
   'title' => 'Workers',
   'main_page' => 'Workers',
+  'main_link' => 'workers.index'
 ])
 <!doctype html>
 <html lang="ru">
@@ -12,7 +13,7 @@
     <title>{{ $title }}</title>
 </head>
 <body>
-<h1>{{ $main_page }}</h1>
+<a href="{{ route($main_link) }}"><h1>{{ $main_page }}</h1></a>
 {{ $slot }}
 </body>
 </html>
