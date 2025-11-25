@@ -3,4 +3,6 @@
 use App\Http\Controllers\WorkerController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [WorkerController::class, 'index'])->name('workers.index');
+Route::name('workers.')->group(function () {
+    Route::resource('workers', WorkerController::class);
+});
