@@ -11,7 +11,7 @@ class WorkerController extends Controller
     public function index()
     {
         $workers = Worker::all();
-
+        return view('worker.index', compact('workers'));
     }
 
     public function create()
