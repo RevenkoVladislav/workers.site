@@ -2,7 +2,7 @@
     <div>
         @foreach($workers as $worker)
             <div>
-                <div>Name: {{ $worker->name }}</div>
+                <div><p class="text-danger">Name: {{ $worker->name }}</p></div>
                 <div>Surname: {{ $worker->surname }}</div>
                 <div>Email: {{ $worker->email }}</div>
                 <div>Age: {{ $worker->age }}</div>
