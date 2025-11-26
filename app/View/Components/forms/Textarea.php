@@ -6,19 +6,21 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class input extends Component
+class Textarea extends Component
 {
     public string $name;
     public string $classes;
     public string $label;
-    public string $type;
+    public string $rows;
+    public string $cols;
     public string $id;
-    public function __construct(string $name, string $label, string $type = 'text', string $classes = 'mb-3')
+    public function __construct(string $name, string $label, string $classes = 'mb-3', string $rows = '3', string $cols = '3')
     {
         $this->name = $name;
-        $this->type = $type;
         $this->label = $label;
         $this->classes = $classes;
+        $this->rows = $rows;
+        $this->cols = $cols;
         $this->id = uniqid();
     }
 
@@ -27,6 +29,6 @@ class input extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.forms.input');
+        return view('components.forms.textarea');
     }
 }
