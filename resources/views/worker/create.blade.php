@@ -1,6 +1,6 @@
 <x-layout.main title="Create">
     <div class="w-50">
-        <form action="" method="post">
+        <form action="{{ route('workers.store') }}" method="post">
             @csrf
             <x-forms.input name="name" label="Name"/>
             <x-forms.input name="surname" label="Surname"/>

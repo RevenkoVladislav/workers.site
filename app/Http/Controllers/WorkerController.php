@@ -23,6 +23,7 @@ class WorkerController extends Controller
     {
         $data = $request->validated();
         Worker::create($data);
+        return redirect()->route('workers.index')->with('success', 'Worker created successfully');
     }
 
     public function show(Worker $worker)

@@ -18,6 +18,13 @@
 </div>
 
 <div class="container-lg">
+
+    @if(session('success'))
+        <div class="text-white bg-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="row">
         {{ $slot }}
     </div>
