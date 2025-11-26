@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-2 mb-2">
         <a class="navbar-brand" href="{{ route($main_link) }}">{{ $main_page }}</a>
 
 

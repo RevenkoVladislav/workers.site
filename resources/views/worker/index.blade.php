@@ -1,5 +1,5 @@
 <x-layout.main>
-    <div class="row row-cols-1 row-cols-md-3 g-3 mb-lg-auto">
+    <div class="row row-cols-1 row-cols-md-3 g-2 mb-lg-auto">
         @foreach($workers as $worker)
             <div class="col">
                 <div class="card text-dark bg-light border-dark mb-3 p-3 text-center">
@@ -12,7 +12,7 @@
                         <p class="card-text"><b>Phone:</b> {{ $worker->phone }}</p>
                         <p class="card-text"><b>Description:</b> {{ $worker->description }}</p>
                         <p class="card-text"><b>Is married:</b> {{ $worker->is_married }}</p>
-                        <a href="{{ route('workers.show', $worker) }}" class="btn btn-secondary mt-2">Посмотреть</a>
+                        <a href="{{ route('workers.show', $worker) }}" class="btn btn-outline-secondary mt-2">Посмотреть</a>
                     </div>
                 </div>
             </div>

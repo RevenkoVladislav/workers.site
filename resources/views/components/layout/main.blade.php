@@ -1,7 +1,5 @@
 @props([
   'title' => 'Workers',
-  'main_page' => 'Workers',
-  'main_link' => 'workers.index'
 ])
     <!doctype html>
 <html lang="ru">
@@ -19,7 +17,7 @@
     <x-menu/>
 </div>
 
-<div class="container">
+<div class="container-lg">
     <div class="row">
         {{ $slot }}
     </div>
