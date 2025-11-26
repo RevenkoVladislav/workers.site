@@ -3,7 +3,7 @@
   'main_page' => 'Workers',
   'main_link' => 'workers.index'
 ])
-<!doctype html>
+    <!doctype html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +14,15 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
-<a href="{{ route($main_link) }}"><h1>{{ $main_page }}</h1></a>
-{{ $slot }}
+<div class="container">
+    <div class="row p-2">
+        <a href="{{ route($main_link) }}" class="text-decoration-none text-secondary">
+            <h1 class="text-center">{{ $main_page }}</h1>
+        </a>
+        {{ $slot }}
+    </div>
+</div>
+
+
 </body>
 </html>
