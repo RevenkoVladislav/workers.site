@@ -1,5 +1,5 @@
 <x-layout.main>
-    <div class="row row-cols-1 row-cols-md-3 g-3">
+    <div class="row row-cols-1 row-cols-md-3 g-3 mb-lg-auto">
         @foreach($workers as $worker)
             <div class="col">
                 <div class="card text-dark bg-light border-dark mb-3 p-3 text-center">

@@ -1,5 +1,5 @@
 <x-layout.main :title="$worker->name">
-    <div class="col-sm-12">
+    <div class="row g-3 col-sm-12">
         <div class="card text-dark bg-light border-dark mb-3 p-3 text-center">
             <div class="card-header">Worker Id: {{$worker->id}}</div>
             <div class="card-body">

@@ -14,11 +14,13 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
+
 <div class="container">
-    <div class="row p-2">
-        <a href="{{ route($main_link) }}" class="text-decoration-none text-secondary">
-            <h1 class="text-center">{{ $main_page }}</h1>
-        </a>
+    <x-menu/>
+</div>
+
+<div class="container">
+    <div class="row">
         {{ $slot }}
     </div>
 </div>
