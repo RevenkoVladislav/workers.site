@@ -23,7 +23,7 @@ class WorkerController extends Controller
     {
         $data = $request->validated();
         Worker::create($data);
-        return redirect()->route('workers.index')->with('success', 'Worker created successfully');
+        return to_route('workers.index')->with('success', 'Worker created successfully');
     }
 
     public function show(Worker $worker)
@@ -40,12 +40,12 @@ class WorkerController extends Controller
     {
         $data = $request->validated();
         $worker->update($data);
-        return redirect()->back()->with('success', 'Worker updated successfully');
+        return to_route('workers.show', $worker)->with('success', 'Worker updated successfully');
     }
 
     public function destroy(Worker $worker)
     {
         $worker->delete();
-        return redirect()->route('workers.index')->with('success', 'Worker deleted successfully');
+        return to_route('workers.index')->with('success', 'Worker deleted successfully');
     }
 }

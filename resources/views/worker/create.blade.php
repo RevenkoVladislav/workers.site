@@ -6,9 +6,9 @@
             <x-forms.input name="surname" label="Surname" placeholder="Surname"/>
             <x-forms.input name="email" label="Email" placeholder="Email"/>
             <x-forms.input name="age" label="Age" placeholder="Age"/>
-            <x-forms.input name="phone" label="Phone" placeholder="Phone"/>
+            <x-forms.input name="phone" label="Phone" placeholder="Phone format (8**********)"/>
             <x-forms.textarea name="description" placeholder="Description" label="Description"/>
-            <x-forms.checkbox name="is_married" label="is_married"/>
+            <x-forms.checkbox name="is_married" label="Is married ?"/>
             <button type="submit" class="w-100 btn btn-secondary">Create</button>
         </form>
     </div>

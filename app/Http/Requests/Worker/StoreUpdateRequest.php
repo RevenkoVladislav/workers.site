@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Worker;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUpdateRequest extends FormRequest
 {
@@ -17,8 +18,21 @@ class StoreUpdateRequest extends FormRequest
             'name' => 'required|string|max:60',
             'surname' => 'nullable|string|max:90',
             'age' => 'nullable|integer|between:18,100',
-            'email' => 'required|email',
-            'phone' => 'required|string|regex:/^8[0-9]{10}$/',
+            'email' => [
+                'required',
+                'email',
+                $this->isMethod('post')
+                    ? 'unique:workers,email'
+                    : Rule::unique('workers', 'email')->ignore($this->route('worker'))
+            ],
+            'phone' => [
+                'required',
+                'string',
+                'regex:/^8[0-9]{10}$/',
+                $this->isMethod('post')
+                    ? 'unique:workers,phone'
+                    : Rule::unique('workers', 'phone')->ignore($this->route('worker'))
+            ],
             'description' => 'nullable|string|max:1000',
             'is_married' => 'nullable|boolean'
         ];

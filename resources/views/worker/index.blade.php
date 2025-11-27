@@ -11,7 +11,7 @@
                         <p class="card-text"><b>Age:</b> {{ $worker->age }}</p>
                         <p class="card-text"><b>Phone:</b> {{ $worker->phone }}</p>
                         <p class="card-text"><b>Description:</b> {{ $worker->description }}</p>
-                        <p class="card-text"><b>Is married:</b> {{ $worker->is_married }}</p>
+                        <p class="card-text"><b>Is married:</b> {{ $worker->is_married ? 'Yes' : 'No' }}</p>
                         <a href="{{ route('workers.show', $worker) }}" class="btn btn-outline-secondary mt-2">Read more</a>
                         <a href="{{ route('workers.edit', $worker) }}" class="btn btn-outline-success w-25 mt-2">Edit</a>
                         <form action="{{ route('workers.destroy', $worker) }}" method="post" class="">

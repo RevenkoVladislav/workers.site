@@ -1,5 +1,5 @@
 <div class="{{ $classes }}">
-    <label class="form-check-label" for="{{ $id }}">Check me out</label>
+    <label class="form-check-label" for="{{ $id }}">{{ $label }}</label>
     <input type="hidden" name="{{ $name }}" value="0">
     <input type="checkbox" name="{{ $name }}" value="1" class="form-check-input" id="{{ $id }}"
            @if(old($name, $model?->$name))
