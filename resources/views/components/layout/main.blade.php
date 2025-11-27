@@ -13,8 +13,11 @@
 </head>
 <body>
 
-<div class="container">
-    <x-menu/>
+<div class="container-lg">
+
+
+        <x-menu/>
+
 </div>
 
 <div class="container-lg">
@@ -25,9 +28,9 @@
         </div>
     @endif
 
-    <div class="row">
         {{ $slot }}
-    </div>
+
+
 </div>
 
 
