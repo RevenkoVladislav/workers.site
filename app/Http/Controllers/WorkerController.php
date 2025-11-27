@@ -10,7 +10,7 @@ class WorkerController extends Controller
 {
     public function index()
     {
-        $workers = Worker::all();
+        $workers = Worker::paginate(6);
         return view('worker.index', compact('workers'));
     }
 
