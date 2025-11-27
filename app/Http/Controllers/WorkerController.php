@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Worker;
+use App\Services\WorkerSearchService;
 use Illuminate\Http\Request;
 use App\Http\Requests\Worker\StoreUpdateRequest;
 
 class WorkerController extends Controller
 {
-    public function index()
+    public function index(Request $request, WorkerSearchService $searchService)
     {
-        $workers = Worker::paginate(6);
-        return view('worker.index', compact('workers'));
+        $workers = $searchService->search($request);
+        $search = $request->get('search');
+
+        return view('worker.index', compact('workers', 'search'));
     }
 
     public function create()

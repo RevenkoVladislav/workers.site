@@ -15,7 +15,6 @@
 
 <div class="container-lg">
 
-
         <x-menu/>
 
 </div>
@@ -29,7 +28,6 @@
     @endif
 
         {{ $slot }}
-
 
 </div>
 

@@ -1,4 +1,5 @@
 <x-layout.main>
+    @if($workers->count())
     <div class="row row-cols-1 row-cols-md-3 mt-3 mb-lg-auto">
         @foreach($workers as $worker)
             <div class="col">
@@ -10,7 +11,7 @@
                         <p class="card-text"><b>Email:</b> {{ $worker->email }}</p>
                         <p class="card-text"><b>Age:</b> {{ $worker->age }}</p>
                         <p class="card-text"><b>Phone:</b> {{ $worker->phone }}</p>
-                        <p class="card-text"><b>Description:</b> {{ $worker->description }}</p>
+                        <p class="card-text"><b>Description:</b> {{ substr($worker->description, 0, 15) . '...' }}</p>
                         <p class="card-text"><b>Is married:</b> {{ $worker->is_married ? 'Yes' : 'No' }}</p>
                         <a href="{{ route('workers.show', $worker) }}" class="btn btn-outline-secondary mt-2">Read more</a>
                         <a href="{{ route('workers.edit', $worker) }}" class="btn btn-outline-success w-25 mt-2">Edit</a>
@@ -25,4 +26,12 @@
             </div>
         @endforeach
     </div>
+    <div class="d-flex justify-content-around">
+        {{ $workers->links() }}
+    </div>
+    @else
+        <div>
+        <p class="fs-1 text-center text-muted text-break">По вашему запросу - <b>{{ $search }}</b> ничего не найдено :(</p>
+        </div>
+    @endif
 </x-layout.main>
