@@ -40,10 +40,12 @@ class WorkerController extends Controller
     {
         $data = $request->validated();
         $worker->update($data);
+        return redirect()->back()->with('success', 'Worker updated successfully');
     }
 
     public function destroy(Worker $worker)
     {
         $worker->delete();
+        return redirect()->route('workers.index')->with('success', 'Worker deleted successfully');
     }
 }

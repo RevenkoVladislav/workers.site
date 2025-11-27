@@ -12,8 +12,14 @@
                         <p class="card-text"><b>Phone:</b> {{ $worker->phone }}</p>
                         <p class="card-text"><b>Description:</b> {{ $worker->description }}</p>
                         <p class="card-text"><b>Is married:</b> {{ $worker->is_married }}</p>
-                        <a href="{{ route('workers.show', $worker) }}" class="btn btn-outline-secondary mt-2">Read
-                            more</a>
+                        <a href="{{ route('workers.show', $worker) }}" class="btn btn-outline-secondary mt-2">Read more</a>
+                        <a href="{{ route('workers.edit', $worker) }}" class="btn btn-outline-success w-25 mt-2">Edit</a>
+                        <form action="{{ route('workers.destroy', $worker) }}" method="post" class="">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" value="Delete" class="btn btn-outline-danger mt-2"
+                                   onclick="return confirm('Delete {{ $worker->name }} ?')">
+                        </form>
                     </div>
                 </div>
             </div>

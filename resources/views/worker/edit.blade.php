@@ -1,15 +1,15 @@
 <x-layout.main title="Edit {{ $worker->name }}">
     <div class="w-50">
-        <form action="{{ route('workers.store') }}" method="post">
+        <form action="{{ route('workers.update', $worker) }}" method="post">
             @csrf
-            @method('PUT')
-            <x-forms.input name="name" label="Name"/>
-            <x-forms.input name="surname" label="Surname"/>
-            <x-forms.input name="email" label="Email"/>
-            <x-forms.input name="age" label="Age"/>
-            <x-forms.input name="phone" label="Phone"/>
-            <x-forms.textarea name="description" label="Description"/>
-            <x-forms.checkbox name="is_married" label="is_married"/>
+            @method('patch')
+            <x-forms.input name="name" label="Name" :model="$worker" placeholder="Name"/>
+            <x-forms.input name="surname" label="Surname" :model="$worker" placeholder="Surname"/>
+            <x-forms.input name="email" label="Email" :model="$worker" placeholder="Email"/>
+            <x-forms.input name="age" label="Age" :model="$worker" placeholder="Age"/>
+            <x-forms.input name="phone" label="Phone" :model="$worker" placeholder="Phone"/>
+            <x-forms.textarea name="description" label="Description" :model="$worker" placeholder="Description"/>
+            <x-forms.checkbox name="is_married" label="is_married" :model="$worker"/>
             <button type="submit" class="w-100 btn btn-success">Update</button>
         </form>
     </div>

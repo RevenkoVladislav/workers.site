@@ -4,6 +4,7 @@ namespace App\View\Components\forms;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 
 class Textarea extends Component
@@ -11,14 +12,18 @@ class Textarea extends Component
     public string $name;
     public string $classes;
     public string $label;
+    public ?Model $model;
+    public string $placeholder;
     public string $rows;
     public string $cols;
     public string $id;
-    public function __construct(string $name, string $label, string $classes = 'mb-3', string $rows = '3', string $cols = '3')
+    public function __construct(string $name, string $label, string $placeholder = '', ?Model $model = null, string $classes = 'mb-3', string $rows = '3', string $cols = '3')
     {
         $this->name = $name;
         $this->label = $label;
         $this->classes = $classes;
+        $this->model = $model;
+        $this->placeholder = $placeholder;
         $this->rows = $rows;
         $this->cols = $cols;
         $this->id = uniqid();

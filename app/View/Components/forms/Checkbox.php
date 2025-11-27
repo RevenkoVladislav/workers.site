@@ -4,6 +4,7 @@ namespace App\View\Components\forms;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 
 class Checkbox extends Component
@@ -11,12 +12,14 @@ class Checkbox extends Component
     public string $name;
     public string $classes;
     public string $label;
+    public ?Model $model;
     public string $id;
-    public function __construct(string $name, string $label, string $classes = 'mb-3 form-check')
+    public function __construct(string $name, string $label, ?Model $model = null, string $classes = 'mb-3 form-check')
     {
         $this->name = $name;
         $this->label = $label;
         $this->classes = $classes;
+        $this->model = $model;
         $this->id = uniqid();
     }
 
