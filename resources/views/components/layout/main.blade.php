@@ -2,7 +2,7 @@
   'title' => 'Workers',
 ])
     <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -15,7 +15,7 @@
 
 <div class="container-lg">
 
-        <x-menu/>
+    <x-menu/>
 
 </div>
 
@@ -27,7 +27,7 @@
         </div>
     @endif
 
-        {{ $slot }}
+    {{ $slot }}
 
 </div>
 
