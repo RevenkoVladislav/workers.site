@@ -3,8 +3,12 @@
 use App\Http\Controllers\WorkerController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('workers', WorkerController::class);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => 'auth'], function () {
+
+});
+
+Route::resource('workers', WorkerController::class);
