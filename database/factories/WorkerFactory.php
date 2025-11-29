@@ -24,7 +24,6 @@ class WorkerFactory extends Factory
             'phone' => fake()->unique()->phoneNumber(),
             'description' => fake()->text(100),
             'is_married' => fake()->boolean(),
-            'user_id' => User::get()->random()->id
         ];
     }
 }
