@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Worker::class, 'user_id', 'id');
     }
+
+    public function manager(): HasOne
+    {
+        return $this->hasOne(Manager::class, 'user_id', 'id');
+    }
 }
