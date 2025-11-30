@@ -31,7 +31,7 @@
     </div>
     @else
         <div>
-        <p class="fs-1 text-center text-muted text-break">По вашему запросу - <b>{{ $search }}</b> ничего не найдено :(</p>
+        <p class="fs-1 text-center text-muted text-break">По вашему запросу - <b>{{ $search ?? null }}</b> ничего не найдено :(</p>
         </div>
     @endif
 </x-layout.main>

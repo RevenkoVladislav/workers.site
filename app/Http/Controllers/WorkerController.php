@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Models\Worker;
 use App\Services\WorkerSearchService;
 use Illuminate\Http\Request;
 use App\Http\Requests\Worker\StoreUpdateRequest;
+use Illuminate\Support\Facades\DB;
 
 class WorkerController extends Controller
 {
@@ -26,7 +29,23 @@ class WorkerController extends Controller
     public function store(StoreUpdateRequest $request)
     {
         $data = $request->validated();
-        Worker::create($data);
+        DB::transaction(function () use ($data) {
+            $user = User::create([
+                'name' => $data['name'],
+                'surname' => $data['surname'] ?? null,
+                'email' => $data['email'] ?? null,
+                'password' => 'admin', //временный пароль
+                'role_id' => Role::where('name', 'Worker')->first()->id,
+            ]);
+
+            Worker::create([
+                'user_id' => $user->id,
+                'age' => $data['age'] ?? null,
+                'phone' => $data['phone'],
+                'description' => $data['description'] ?? null,
+                'is_married' => $data['is_married'] ?? false
+            ]);
+        });
         return to_route('workers.index')->with('success', 'Worker created successfully');
     }
 
@@ -43,13 +62,26 @@ class WorkerController extends Controller
     public function update(StoreUpdateRequest $request, Worker $worker)
     {
         $data = $request->validated();
-        $worker->update($data);
+        DB::transaction(function () use ($data, $worker) {
+            $worker->user->update([
+                'name' => $data['name'],
+                'surname' => $data['surname'] ?? null,
+                'email' => $data['email'] ?? null
+            ]);
+
+            $worker->update([
+               'age' => $data['age'] ?? null,
+                'phone' => $data['phone'],
+                'description' => $data['description'] ?? null,
+                'is_married' => $data['is_married'] ?? false
+            ]);
+        });
         return to_route('workers.show', $worker)->with('success', 'Worker updated successfully');
     }
 
     public function destroy(Worker $worker)
     {
-        $worker->delete();
+        $worker->user->delete();
         return to_route('workers.index')->with('success', 'Worker deleted successfully');
     }
 }

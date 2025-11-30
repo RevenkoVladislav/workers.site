@@ -15,7 +15,8 @@ class Worker extends Model
         'phone',
         'age',
         'description',
-        'is_married'
+        'is_married',
+        'user_id'
     ];
 
     protected $hidden = [
