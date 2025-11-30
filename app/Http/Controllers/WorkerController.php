@@ -12,13 +12,11 @@ use Illuminate\Support\Facades\DB;
 
 class WorkerController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, WorkerSearchService $searchService)
     {
-//        $workers = $searchService->search($request);
-//        $search = $request->get('search');
-
-        $workers = Worker::with('user')->paginate(6)->withQueryString();
-        return view('worker.index', compact('workers'));
+        $workers = $searchService->search($request);
+        $search = $request->get('search');
+        return view('worker.index', compact('workers', 'search'));
     }
 
     public function create()
