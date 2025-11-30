@@ -9,12 +9,13 @@ use App\Http\Requests\Worker\StoreUpdateRequest;
 
 class WorkerController extends Controller
 {
-    public function index(Request $request, WorkerSearchService $searchService)
+    public function index(Request $request)
     {
-        $workers = $searchService->search($request);
-        $search = $request->get('search');
+//        $workers = $searchService->search($request);
+//        $search = $request->get('search');
 
-        return view('worker.index', compact('workers', 'search'));
+        $workers = Worker::with('user')->paginate(6)->withQueryString();
+        return view('worker.index', compact('workers'));
     }
 
     public function create()
@@ -36,7 +37,7 @@ class WorkerController extends Controller
 
     public function edit(Worker $worker)
     {
-        return view('worker.edit', compact('worker'));
+        return view('worker.edit', ['worker' => $worker, 'user' => $worker->user]);
     }
 
     public function update(StoreUpdateRequest $request, Worker $worker)
