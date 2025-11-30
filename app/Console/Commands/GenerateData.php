@@ -14,10 +14,11 @@ class GenerateData extends Command
     protected $signature = "generate:data
                             {--workers=0 : generate N Workers},
                             {--managers=0 : generate N Managers},
-                            {--reset : Reset table Users } ";
+                            {--reset : Reset table Users }";
 
     protected $description = 'Generate users data for testing';
 
+    //для дальнейшего добавление необходимо внести сюда роль. И при желании добавить проверку перед циклом.
     protected array $roles = [
         'Worker' => Worker::class,
         'Manager' => Manager::class,
@@ -54,29 +55,27 @@ class GenerateData extends Command
             ->get()
             ->keyBy('name');
 
-
         //проходим по массиву, приравниваем все роли к виду 'workers'
         foreach ($this->roles as $roleName => $factoryClass) {
             $count = (int)$this->option(strtolower($roleName) . 's') ?? 0;
 
             //число не передано - пропускаем
-            if ($count <= 0) continue;
-
-            //не найдена роль - вывод ошибки и пропуск
-            if (!$roles->has($roleName)) {
-                $this->error("Role {$roleName} not found");
+            if ($count <= 0) {
                 continue;
             }
 
             //используем транзакцию с замыканием и передаем все данные
-            DB::transaction(function () use ($count, $roles, $roleName, $factoryClass) {
-                User::factory($count)
-                    ->for($roles[$roleName])
-                    ->has($factoryClass::factory())
-                    ->create();
-            });
-
-            $this->info("Created $count {$roleName}s");
+            try {
+                DB::transaction(function () use ($count, $roles, $roleName, $factoryClass) {
+                    User::factory($count)
+                        ->for($roles[$roleName])
+                        ->has($factoryClass::factory())
+                        ->create();
+                });
+                $this->info("Created $count {$roleName}s");
+            } catch (\Throwable $error) {
+                $this->error("Error: {$error->getMessage()}");
+            }
         }
     }
 }
