@@ -64,6 +64,12 @@ class GenerateData extends Command
                 continue;
             }
 
+            //Защита если роли нет в таблице ролей
+            if(!$roles->has($roleName)) {
+                $this->error("Role '$roleName' not found");
+                continue;
+            }
+
             //используем транзакцию с замыканием и передаем все данные
             try {
                 DB::transaction(function () use ($count, $roles, $roleName, $factoryClass) {
