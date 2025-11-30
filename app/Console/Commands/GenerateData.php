@@ -18,7 +18,7 @@ class GenerateData extends Command
 
     protected $description = 'Generate users data for testing';
 
-    protected $roles = [
+    protected array $roles = [
         'Worker' => Worker::class,
         'Manager' => Manager::class,
     ];
@@ -38,38 +38,45 @@ class GenerateData extends Command
                 $this->info('Users reset done');
                 return;
             } catch (\Throwable $error) {
-                DB::rollBack();
                 $this->error("Reset failed: {$error->getMessage()}");
                 return;
             }
         }
 
-//         Проходимся по массиву с ролями. Приводим их к имени: workers и получаем введенное значение.
-//         Если ввели больше 0, то начинаем транзакцию, получаем роль из сущности Role.
-//         Вызываем фабрику User(количество) указываем для какой роли создаем.
-//         Имеет какую фабрику -> вызываем эту фабрику.
-//         Создаем и завершаем транзакцию.
-
-        if(!$this->option('workers') && !$this->option('managers')){
+        //если не ввели роль - то цикл не делаем
+        if (!$this->option('workers') && !$this->option('managers')) {
             $this->warn('No generation workers provided. Use --workers=1 or/and --managers=1');
+            return;
         }
 
+        //грузим все роли
+        $roles = Role::whereIn('name', array_keys($this->roles))
+            ->get()
+            ->keyBy('name');
+
+
+        //проходим по массиву, приравниваем все роли к виду 'workers'
         foreach ($this->roles as $roleName => $factoryClass) {
             $count = (int)$this->option(strtolower($roleName) . 's') ?? 0;
+
+            //число не передано - пропускаем
             if ($count <= 0) continue;
-            try {
-                $role = Role::where('name', $roleName)->first();
-                DB::beginTransaction();
+
+            //не найдена роль - вывод ошибки и пропуск
+            if (!$roles->has($roleName)) {
+                $this->error("Role {$roleName} not found");
+                continue;
+            }
+
+            //используем транзакцию с замыканием и передаем все данные
+            DB::transaction(function () use ($count, $roles, $roleName, $factoryClass) {
                 User::factory($count)
-                    ->for($role)
+                    ->for($roles[$roleName])
                     ->has($factoryClass::factory())
                     ->create();
-                DB::commit();
-                $this->info("Created $count {$roleName}s");
-            } catch (\Throwable $error) {
-                DB::rollback();
-                $this->error("Error: {$error->getMessage()}");
-            }
+            });
+
+            $this->info("Created $count {$roleName}s");
         }
     }
 }
