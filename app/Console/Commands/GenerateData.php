@@ -27,11 +27,20 @@ class GenerateData extends Command
     {
         if ($this->option('reset')) {
             try {
-                User::where('id', '>', 0)->delete();
-                $this->info('Reset Users table done');
+                // Отключаю проверку foreign key для сброса таблиц с юзерами.
+                // Прошлый вариант User::where('id', '>', 0)->delete(); он более медленный
+                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+                User::truncate();
+                Worker::truncate();
+                Manager::truncate();
+                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+                $this->info('Users reset done');
+                return;
             } catch (\Throwable $error) {
                 DB::rollBack();
                 $this->error("Reset failed: {$error->getMessage()}");
+                return;
             }
         }
 
@@ -41,43 +50,26 @@ class GenerateData extends Command
 //         Имеет какую фабрику -> вызываем эту фабрику.
 //         Создаем и завершаем транзакцию.
 
-//        if (array_map(function ($roles) {
-//            $this->option(strtolower($roles) . 's') ?? false;
-//        }, array_keys($this->roles))
-//    );
-        foreach ($this->roles as $roleName => $factoryClass) {
-            $count = $this->option(strtolower($roleName) . 's') ?? 0;
-            if ($count > 0) {
-                try {
-                    $role = Role::where('name', $roleName)->first();
-                    DB::beginTransaction();
-                    User::factory($count)
-                        ->for($role)
-                        ->has($factoryClass::factory())
-                        ->create();
-                    DB::commit();
-                    $this->info("Created $count $roleName");
-                } catch (\Throwable $error) {
-                    DB::rollback();
-                    $this->error("Error: {$error->getMessage()}");
-                }
-            } else {
-                $this->info("Nothing to create for $roleName");
-            }
+        if(!$this->option('workers') && !$this->option('managers')){
+            $this->warn('No generation workers provided. Use --workers=1 or/and --managers=1');
         }
 
-//        if ($this->option('workers') > 0) {
-//            try {
-//                DB::beginTransaction();
-//                Worker::factory($this->option('workers'))->create();
-//                DB::commit();
-//                $this->info('Workers created: ' . $this->option('workers'));
-//            } catch (\Throwable $error) {
-//                DB::rollback();
-//                $this->error("Error: {$error->getMessage()}");
-//            }
-//        } else {
-//            $this->info('No workers specified');
-//        }
+        foreach ($this->roles as $roleName => $factoryClass) {
+            $count = (int)$this->option(strtolower($roleName) . 's') ?? 0;
+            if ($count <= 0) continue;
+            try {
+                $role = Role::where('name', $roleName)->first();
+                DB::beginTransaction();
+                User::factory($count)
+                    ->for($role)
+                    ->has($factoryClass::factory())
+                    ->create();
+                DB::commit();
+                $this->info("Created $count {$roleName}s");
+            } catch (\Throwable $error) {
+                DB::rollback();
+                $this->error("Error: {$error->getMessage()}");
+            }
+        }
     }
 }
