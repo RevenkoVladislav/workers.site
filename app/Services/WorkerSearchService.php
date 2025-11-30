@@ -9,7 +9,8 @@ class WorkerSearchService
 {
     public function search(Request $request)
     {
-        $query = Worker::query();
+        $query = Worker::query()->join('users', 'users.id', '=', 'workers.user_id')
+        ->select('workers.*');
 
         if ($request->search) {
             //убираю все опасные символы, оставляю только буквы, цифры и пробелы
@@ -25,14 +26,11 @@ class WorkerSearchService
                 $words = array_map(fn($word) => $word . '*', $words);
                 $search = implode(' ', $words);
 
-                $query->whereRaw(
-                    "MATCH(name, surname, phone, email, description)
-                        AGAINST(? IN BOOLEAN MODE)",
-                    [$search]
-                );
+                $query->whereRaw("MATCH(users.name, users.surname, users.email) AGAINST(? IN BOOLEAN MODE)", [$search])
+                    ->orWhereRaw("MATCH(workers.phone, workers.description) AGAINST(? IN BOOLEAN MODE)", [$search]);
             }
         }
         //dump($query); посмотреть что в запросе
-        return $query->paginate(6)->withQueryString();
+        return $query->with('user')->paginate(6)->withQueryString();
     }
 }

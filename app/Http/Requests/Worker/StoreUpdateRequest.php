@@ -22,8 +22,9 @@ class StoreUpdateRequest extends FormRequest
                 'required',
                 'email',
                 $this->isMethod('post')
-                    ? 'unique:workers,email'
-                    : Rule::unique('workers', 'email')->ignore($this->route('worker'))
+                    ? 'unique:users,email'
+                    : Rule::unique('users', 'email')->ignore($this->worker->user_id)
+                //игнорировать email привязанного пользователя
             ],
             'phone' => [
                 'required',

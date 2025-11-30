@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Models\Worker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,13 +20,10 @@ class WorkerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->word(),
-            'surname' => fake()->word(),
-            'email' => fake()->unique()->safeEmail(),
             'age' => fake()->numberBetween(18, 80),
             'phone' => fake()->unique()->phoneNumber(),
             'description' => fake()->text(100),
-            'is_married' => fake()->boolean()
+            'is_married' => fake()->boolean(),
         ];
     }
 }

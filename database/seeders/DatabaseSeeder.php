@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Worker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -16,13 +17,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-//        User::factory()->create([
-//            'name' => 'Test User',
-//            'email' => 'test@example.com',
-//        ]);
-
-        Worker::factory(15)->create();
+        User::factory(10)
+            ->for(Role::where('name', 'Worker')->first())
+            ->has(Worker::factory())
+            ->create();
     }
 }

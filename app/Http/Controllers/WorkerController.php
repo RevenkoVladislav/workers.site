@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Models\Worker;
 use App\Services\WorkerSearchService;
 use Illuminate\Http\Request;
 use App\Http\Requests\Worker\StoreUpdateRequest;
+use Illuminate\Support\Facades\DB;
 
 class WorkerController extends Controller
 {
@@ -13,7 +16,6 @@ class WorkerController extends Controller
     {
         $workers = $searchService->search($request);
         $search = $request->get('search');
-
         return view('worker.index', compact('workers', 'search'));
     }
 
@@ -25,7 +27,7 @@ class WorkerController extends Controller
     public function store(StoreUpdateRequest $request)
     {
         $data = $request->validated();
-        Worker::create($data);
+        $this->workerService->store($data);
         return to_route('workers.index')->with('success', 'Worker created successfully');
     }
 
@@ -36,19 +38,19 @@ class WorkerController extends Controller
 
     public function edit(Worker $worker)
     {
-        return view('worker.edit', compact('worker'));
+        return view('worker.edit', ['worker' => $worker, 'user' => $worker->user]);
     }
 
     public function update(StoreUpdateRequest $request, Worker $worker)
     {
         $data = $request->validated();
-        $worker->update($data);
+        $this->workerService->update($data, $worker);
         return to_route('workers.show', $worker)->with('success', 'Worker updated successfully');
     }
 
     public function destroy(Worker $worker)
     {
-        $worker->delete();
+        $worker->user->delete();
         return to_route('workers.index')->with('success', 'Worker deleted successfully');
     }
 }

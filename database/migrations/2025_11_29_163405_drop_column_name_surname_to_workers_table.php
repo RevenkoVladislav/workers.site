@@ -16,7 +16,7 @@ return new class extends Migration
             $table->dropColumn('surname');
             $table->dropColumn('email');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id', 'user_worker_fk')->on('users')->references('id');
+            $table->foreign('user_id', 'user_worker_fk')->on('users')->references('id')->onDelete('cascade');
             $table->index('user_id', 'user_worker_idx');
             $table->fullText(['description', 'phone'], 'worker_full_text');
         });
