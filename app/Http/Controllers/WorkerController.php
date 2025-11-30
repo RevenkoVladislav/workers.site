@@ -29,23 +29,7 @@ class WorkerController extends Controller
     public function store(StoreUpdateRequest $request)
     {
         $data = $request->validated();
-        DB::transaction(function () use ($data) {
-            $user = User::create([
-                'name' => $data['name'],
-                'surname' => $data['surname'] ?? null,
-                'email' => $data['email'] ?? null,
-                'password' => 'admin', //временный пароль
-                'role_id' => Role::where('name', 'Worker')->first()->id,
-            ]);
-
-            Worker::create([
-                'user_id' => $user->id,
-                'age' => $data['age'] ?? null,
-                'phone' => $data['phone'],
-                'description' => $data['description'] ?? null,
-                'is_married' => $data['is_married'] ?? false
-            ]);
-        });
+        $this->workerService->store($data);
         return to_route('workers.index')->with('success', 'Worker created successfully');
     }
 
@@ -62,20 +46,7 @@ class WorkerController extends Controller
     public function update(StoreUpdateRequest $request, Worker $worker)
     {
         $data = $request->validated();
-        DB::transaction(function () use ($data, $worker) {
-            $worker->user->update([
-                'name' => $data['name'],
-                'surname' => $data['surname'] ?? null,
-                'email' => $data['email'] ?? null
-            ]);
-
-            $worker->update([
-               'age' => $data['age'] ?? null,
-                'phone' => $data['phone'],
-                'description' => $data['description'] ?? null,
-                'is_married' => $data['is_married'] ?? false
-            ]);
-        });
+        $this->workerService->update($data, $worker);
         return to_route('workers.show', $worker)->with('success', 'Worker updated successfully');
     }
 
