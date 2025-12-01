@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Manager;
 
-use App\Models\Role;
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Worker\StoreUpdateRequest;
 use App\Models\Worker;
 use App\Services\WorkerSearchService;
 use Illuminate\Http\Request;
-use App\Http\Requests\Worker\StoreUpdateRequest;
-use Illuminate\Support\Facades\DB;
 
 class WorkerController extends Controller
 {

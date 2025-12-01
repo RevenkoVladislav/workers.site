@@ -1,14 +1,17 @@
 <?php
 
-use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\Manager\WorkerController;
+use App\Http\Controllers\Worker\JobsController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-
+    Route::get('/jobs', [JobsController::class, 'index'])->name('jobs.index');
 });
 
-Route::resource('workers', WorkerController::class);
+Route::group(['middleware' => ['auth', 'checkRole:manager']], function () {
+    Route::resource('workers', WorkerController::class);
+});
+
+

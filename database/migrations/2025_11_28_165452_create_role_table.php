@@ -20,7 +20,7 @@ return new class extends Migration
         DB::table('roles')->insert([
            ['id' => 1, 'name' => 'Super Admin'],
            ['id' => 2, 'name' => 'Admin'],
-           ['id' => 3, 'name' => 'Manager'],
+           ['id' => 3, 'name' => 'manager'],
            ['id' => 4, 'name' => 'Worker']
         ]);
     }

@@ -121,7 +121,11 @@
 
                             <div class="col-md-6">
                                 <input type="hidden" name="is_married" value="0">
-                                <input type="checkbox" name="is_married" value="1" class="form-check-input" id="is_married">
+                                <input type="checkbox" name="is_married" value="1" class="form-check-input" id="is_married"
+                                @if(old('is_married'))
+                                    checked
+                                @endif
+                                >
 
                                 @error('age')
                                 <span class="invalid-feedback" role="alert">

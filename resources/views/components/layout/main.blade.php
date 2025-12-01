@@ -1,5 +1,7 @@
 @props([
   'title' => 'Workers',
+  'main_page' => 'Workers',
+  'main_link' => 'workers.index',
 ])
     <!doctype html>
 <html lang="en">
@@ -15,7 +17,40 @@
 
 <div class="container-lg">
 
-    <x-menu/>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light p-2 mb-2">
+        <a class="navbar-brand" href="{{ route($main_link) }}">{{ $main_page }}</a>
+
+
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                @if(auth()->user()?->role->name === 'manager')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('workers.create') }}">Create</a>
+                    </li>
+                @endif
+
+                @if(auth()->user()?->role->name === 'Worker')
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Personal</a>
+                    </li>
+                @endif
+
+                @if(auth()->user())
+                    <form action="{{ route('logout') }}" method="post">
+                        <button class="btn btn-outline-secondary" type="submit">logout</button>
+                    </form>
+                @endif
+
+            </ul>
+
+            <form class="d-flex" action="{{ route('workers.index') }}" method="get">
+                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+        </div>
+    </nav>
 
 </div>
 
