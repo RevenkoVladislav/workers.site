@@ -24,9 +24,15 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                @if(auth()->user()?->role->name === 'manager')
+                @if(auth()->user()?->role->name === 'Manager')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('workers.create') }}">Create</a>
+                        <a class="nav-link" href="{{ route('workers.create') }}">Create Worker</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Create Job</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('jobs.index') }}">Look job</a>
                     </li>
                 @endif
 
@@ -38,6 +44,7 @@
 
                 @if(auth()->user())
                     <form action="{{ route('logout') }}" method="post">
+                        @csrf
                         <button class="btn btn-outline-secondary" type="submit">logout</button>
                     </form>
                 @endif

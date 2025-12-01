@@ -14,12 +14,12 @@ class WorkerController extends Controller
     {
         $workers = $searchService->search($request);
         $search = $request->get('search');
-        return view('worker.index', compact('workers', 'search'));
+        return view('manager.worker.index', compact('workers', 'search'));
     }
 
     public function create()
     {
-        return view('worker.create');
+        return view('manager.worker.create');
     }
 
     public function store(StoreUpdateRequest $request)
@@ -31,12 +31,12 @@ class WorkerController extends Controller
 
     public function show(Worker $worker)
     {
-        return view('worker.show', compact('worker'));
+        return view('manager.worker.show', compact('worker'));
     }
 
     public function edit(Worker $worker)
     {
-        return view('worker.edit', ['worker' => $worker, 'user' => $worker->user]);
+        return view('manager.worker.edit', ['worker' => $worker, 'user' => $worker->user]);
     }
 
     public function update(StoreUpdateRequest $request, Worker $worker)

@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/workers';
+    protected $redirectTo = '/jobs';
     protected WorkerStoreUpdateService $workerService;
 
     /**
