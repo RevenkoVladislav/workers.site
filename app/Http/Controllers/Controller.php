@@ -12,7 +12,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests, DispatchesJobs;
 
-    protected $workerService;
+    protected WorkerStoreUpdateService $workerService;
     public function __construct(WorkerStoreUpdateService $service)
     {
         $this->workerService = $service;
