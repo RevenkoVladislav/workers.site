@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Worker;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -27,6 +28,8 @@ class WorkerStoreUpdateService
                 'description' => $data['description'] ?? null,
                 'is_married' => $data['is_married'] ?? false
             ]);
+
+            event(new Registered($user));
 
             return $user;
         });
