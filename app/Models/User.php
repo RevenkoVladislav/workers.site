@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\SendVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -64,5 +65,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function manager(): HasOne
     {
         return $this->hasOne(Manager::class, 'user_id', 'id');
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new SendVerifyEmail());
     }
 }
