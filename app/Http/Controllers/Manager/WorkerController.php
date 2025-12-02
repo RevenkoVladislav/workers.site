@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Worker\StoreUpdateRequest;
+use App\Mail\User\PasswordMail;
 use App\Models\Worker;
 use App\Services\WorkerSearchService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class WorkerController extends Controller
 {
@@ -25,7 +29,10 @@ class WorkerController extends Controller
     public function store(StoreUpdateRequest $request)
     {
         $data = $request->validated();
-        $this->workerService->store($data);
+        $password = Str::random(8);
+        $data['password'] = $password;
+        $user = $this->workerService->store($data);
+        Mail::to($user->email)->send(new PasswordMail($password, $user->name));
         return to_route('workers.index')->with('success', 'Worker created successfully');
     }
 
