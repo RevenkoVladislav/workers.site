@@ -22,19 +22,23 @@ php artisan migrate --seed
 npm install
 npm run dev
 php artisan serve
+php artisan queue:work
 ```
 ---
 ### Current features
 
 - Display all workers as cards on the homepage.
 - Component-based frontend using Blade and Bootstrap (components for input, textarea, checkbox, etc.)
-- CRUD for workers with validations and display errors.
+- Managers can CRUD for workers with validations and display errors.
 - FullText search.
-- Artisan console command to generate test data. `--workers=N` generate N workers, `--reset` truncate DB.
+- Artisan console command to generate test data. `--workers=N` generate N workers, `--managers=N` generate N managers, `--reset` truncate DB.
 
 ```
-php artisan generate:data --workers=N --reset
+php artisan generate:data --workers=10 --managers=10
 ```
+
+- Event: Sending a verified email. If a Manager has registered a Worker, send a generated password.
+- Queue for sending emails.
 ---
 ### Technologies used
 
@@ -58,5 +62,21 @@ php artisan generate:data --workers=N --reset
 <div><p>FullText search:</p>
 <img width="1319" height="614" alt="Fulltext search" src="https://github.com/user-attachments/assets/21ce6389-af3c-4768-b2e6-d739260c2674" />
 </div>
+
+---
+<div><p>Artisan command `generate:data`:</p>
+<img width="1101" height="364" alt="artisan command" src="https://github.com/user-attachments/assets/ab1d4b76-2dcf-4f2e-a68c-578e26403569" />
+</div>
+
+---
+<div><p>Queue:work:</p>
+<img width="1623" height="266" alt="queue" src="https://github.com/user-attachments/assets/c8a420ce-a2f0-4433-adab-e94f3da975ed" />
+</div>
+
+---
+<div><p>Sending emails:</p>
+<img width="1179" height="76" alt="emails" src="https://github.com/user-attachments/assets/f7313faa-478d-4de9-a881-c737d869572e" />
+</div>
+
 
 
