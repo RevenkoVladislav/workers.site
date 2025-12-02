@@ -20,7 +20,7 @@ class WorkerStoreUpdateService
     public function store($data)
     {
         $user = DB::transaction(function () use ($data): User {
-            $user = User::create([
+            $newUser = User::create([
                 'name' => $data['name'],
                 'surname' => $data['surname'] ?? null,
                 'email' => $data['email'],
@@ -28,16 +28,18 @@ class WorkerStoreUpdateService
                 'role_id' => $this->workerRoleId,
             ]);
 
-            $user->worker()->create([
+            $newUser->worker()->create([
                 'age' => $data['age'] ?? null,
                 'phone' => $data['phone'],
                 'description' => $data['description'] ?? null,
                 'is_married' => $data['is_married'] ?? false
             ]);
-            return $user;
+            return $newUser;
         });
         //используем вне транзакции
         event(new Registered($user));
+
+        return $user;
     }
 
     public function update($data, Worker $worker): User
