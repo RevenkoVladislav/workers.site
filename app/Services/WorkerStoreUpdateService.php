@@ -42,9 +42,9 @@ class WorkerStoreUpdateService
             ]);
             return $newUser;
         });
+
         //используем вне транзакции
-
-
+        //запускаем событие отправки верификационного письма
         //запускаем событие для отправки письма на почту с паролем
         if($createdByManager){
             event(new Registered($user));
