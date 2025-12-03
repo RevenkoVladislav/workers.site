@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
+use App\Events\WorkerCreated;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Worker;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class WorkerStoreUpdateService
 {
@@ -17,14 +19,18 @@ class WorkerStoreUpdateService
     {
         $this->workerRoleId = Role::where('name', 'worker')->value('id');
     }
-    public function store($data)
+    public function store(array $data, bool $createdByManager = false): User
     {
-        $user = DB::transaction(function () use ($data): User {
+        $password = $data['password'] ?? Str::random(8);
+
+        $user = DB::transaction(function () use ($data, $password): User {
             $newUser = User::create([
                 'name' => $data['name'],
                 'surname' => $data['surname'] ?? null,
                 'email' => $data['email'],
-                'password' => Hash::make($data['password'] ?? 'admin'), //если пароль передан то хэш пароля.
+                //при регистрации пароль создает пользователь.
+                // При регистрации через менеджера пароль генерируется автоматически и отправляется на почту.
+                'password' => Hash::make($password),
                 'role_id' => $this->workerRoleId,
             ]);
 
@@ -36,8 +42,15 @@ class WorkerStoreUpdateService
             ]);
             return $newUser;
         });
+
         //используем вне транзакции
-        event(new Registered($user));
+        //запускаем событие отправки верификационного письма
+        //запускаем событие для отправки письма на почту с паролем
+        if($createdByManager){
+            event(new Registered($user));
+            event(new WorkerCreated($user, $password, $createdByManager));
+        }
+
 
         return $user;
     }

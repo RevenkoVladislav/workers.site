@@ -29,10 +29,7 @@ class WorkerController extends Controller
     public function store(StoreUpdateRequest $request)
     {
         $data = $request->validated();
-        $password = Str::random(8);
-        $data['password'] = $password;
-        $user = $this->workerService->store($data);
-        Mail::to($user->email)->send(new PasswordMail($password, $user->name));
+        $this->workerService->store($data, true);
         return to_route('workers.index')->with('success', 'Worker created successfully');
     }
 
