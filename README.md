@@ -37,7 +37,7 @@ php artisan queue:work
 php artisan generate:data --workers=10 --managers=10
 ```
 
-- Event: Sending a verified email. If a Manager has registered a Worker, send a generated password.
+- Event and Listener: Sending a verified email. If a Manager has registered a Worker, send a generated password.
 - Queue for sending emails.
 ---
 ### Technologies used
