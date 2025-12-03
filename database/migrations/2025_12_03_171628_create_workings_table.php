@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreign('company_id', 'working_company_id_fk')->references('id')->on('companies');
             $table->unsignedBigInteger('manager_id');
             $table->foreign('manager_id', 'working_manager_id_fk')->references('id')->on('managers');
-            $table->date('work_date');
+            $table->enum('status', ['open', 'closed', 'in progress'])->default('open');
+            $table->date('work_date')->default(today()->format('Y-m-d'));
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
             $table->timestamps();

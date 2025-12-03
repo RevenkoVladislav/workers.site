@@ -17,4 +17,9 @@ class Company extends Model
     {
         return $this->hasMany(Manager::class, 'company_id', 'id');
     }
+
+    public function working(): HasMany
+    {
+        return $this->hasMany(Working::class, 'company_id', 'id');
+    }
 }
