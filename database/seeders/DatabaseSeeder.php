@@ -7,6 +7,7 @@ use App\Models\Manager;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Worker;
+use App\Models\Working;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -30,5 +31,7 @@ class DatabaseSeeder extends Seeder
             ->for(Role::where('name', 'Manager')->first())
             ->has(Manager::factory())
             ->create();
+
+        Working::factory(30)->create();
     }
 }
