@@ -23,6 +23,7 @@ class WorkingFactory extends Factory
             'manager_id' => Manager::get()->random()->id,
             'status' => $this->faker->randomElement(['open', 'closed', 'in progress']),
             'work_date' => $this->faker->dateTimeThisYear(),
+            'duration' => $this->faker->numberBetween(1, 24),
             'start_time' => $this->faker->time('H:i:s'),
             'end_time' => $this->faker->time('H:i:s')
         ];
