@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Company;
 use App\Models\Manager;
 use App\Models\Role;
 use App\Models\User;
@@ -14,9 +15,10 @@ class GenerateData extends Command
     protected $signature = "generate:data
                             {--workers=0 : generate N Workers},
                             {--managers=0 : generate N Managers},
+                            {--companies=0 : generate N Companies},
                             {--reset : Reset table Users }";
 
-    protected $description = 'Generate users data for testing';
+    protected $description = 'Generate users/companies/workings data for testing';
 
     //для дальнейшего добавление необходимо внести сюда роль. И при желании добавить проверку перед циклом.
     protected array $roles = [
@@ -32,15 +34,29 @@ class GenerateData extends Command
                 // Прошлый вариант User::where('id', '>', 0)->delete(); он более медленный
                 DB::statement('SET FOREIGN_KEY_CHECKS=0;');
                 User::truncate();
+                Company::truncate();
                 Worker::truncate();
                 Manager::truncate();
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-                $this->info('Users reset done');
+                $this->info('Users/Companies/Workings reset done');
                 return;
             } catch (\Throwable $error) {
                 $this->error("Reset failed: {$error->getMessage()}");
                 return;
+            }
+        }
+
+        if($this->option('companies')) {
+            $count = $this->option('companies');
+            try {
+                DB::beginTransaction();
+                Company::factory($this->option('companies'))->create();
+                DB::commit();
+                $this->info("Created $count Companies");
+            } catch (\Throwable $error) {
+                DB::rollBack();
+                $this->error("Generate companies failed: {$error->getMessage()}");
             }
         }
 
