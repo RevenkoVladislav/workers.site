@@ -6,10 +6,16 @@
                     <div class="card text-dark bg-light border-dark mb-3 p-3 text-center">
                         <div class="card-header">Job Id: {{$working->id}}</div>
                         <div class="card-body">
-                            <p class="card-text"><b>Title:</b> {{ $working->title }}</p>
-                            <p class="card-text"><b>Description:</b> {{ substr($working->description, 0, 15) . '...' }}</p>
-                            <p class="card-text"><b>Company:</b> {{ $working->company->name }}</p>
-{{--                            <p class="card-text"><b>Phone:</b> {{ $worker->phone }}</p>--}}
+                            <p class="card-text text"><b>Title: </b>{{ $working->title }}</p>
+                            <p class="card-text text-primary-emphasis"><b>Company: </b>{{ $working->company->name }}</p>
+                            <p class="card-text"><b>Description: </b>{{ substr($working->description, 0, 15) . '...' }}</p>
+                            <p class="card-text"><b>Manager: </b>{{ $working->manager->user->name . ' ' . $working->manager->user->surname }}</p>
+                            <p class="card-text text-bg-success"><b>Status: </b>{{ $working->status }}</p>
+                            <p class="card-text text-primary"><b>Working date: </b>{{ $working->work_date }}</p>
+                            <p class="card-text"><b>Duration: </b>{{ $working->duration }} hours</p>
+                            <p class="card-text text-primary"><b>Start: </b>{{ $working->start_time }}</p>
+                            <p class="card-text text-primary"><b>End: </b>{{ $working->end_time }}</p>
+
 
 {{--                            <a href="{{ route('workers.show', $worker) }}" class="btn btn-outline-secondary mt-2">Read more</a>--}}
 {{--                            <a href="{{ route('workers.edit', $worker) }}" class="btn btn-outline-success w-25 mt-2">Edit</a>--}}
