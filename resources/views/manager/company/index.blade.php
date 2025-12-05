@@ -3,7 +3,7 @@
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-3">
-                <a href="{{ route('companies.store') }}" class="btn btn-block btn-outline-success">Add company</a>
+                <a href="{{ route('companies.create') }}" class="btn btn-block btn-outline-success">Add company</a>
             </div>
         </div>
         <table class="table">
