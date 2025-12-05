@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Manager\Company\StoreUpdateRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
@@ -25,9 +26,11 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUpdateRequest $request)
     {
-        //
+        $data = $request->validated();
+        Company::create($data);
+        return to_route('companies.index')->with('success', 'Worker created successfully');
     }
 
     /**
