@@ -13,4 +13,9 @@ class WorkingController extends Controller
         $workings = Working::with(['manager', 'company'])->paginate(6)->withQueryString();
         return view('worker.workings.index', compact('workings'));
     }
+
+    public function show(Working $working)
+    {
+        return view('worker.workings.show', compact('working'));
+    }
 }

@@ -9,8 +9,11 @@ Route::middleware('web')->group(function () {
 });
 
 
-Route::group(['middleware' => ['auth', 'verified']], function () {
-    Route::get('/', [WorkingController::class, 'index'])->name('jobs.index');
+Route::prefix('workings')->name('workers.')->group(function () {
+    Route::group(['middleware' => ['auth', 'verified']], function () {
+        Route::get('/', [WorkingController::class, 'index'])->name('working.index');
+        Route::get('/{working}/show', [WorkingController::class, 'show'])->name('working.show');
+    });
 });
 
 Route::group(['middleware' => ['auth', 'verified', 'checkRole:Manager']], function () {

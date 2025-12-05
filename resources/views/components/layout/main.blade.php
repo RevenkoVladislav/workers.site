@@ -32,7 +32,7 @@
                         <a class="nav-link" href="#">Create Job</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('jobs.index') }}">Look job</a>
+                        <a class="nav-link" href="{{ route('workers.working.index') }}">Look job</a>
                     </li>
                 @endif
 

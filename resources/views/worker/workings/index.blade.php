@@ -15,9 +15,7 @@
                             <p class="card-text"><b>Duration: </b>{{ $working->duration }} hours</p>
                             <p class="card-text text-primary"><b>Start: </b>{{ $working->start_time }}</p>
                             <p class="card-text text-primary"><b>End: </b>{{ $working->end_time }}</p>
-
-
-{{--                            <a href="{{ route('workers.show', $worker) }}" class="btn btn-outline-secondary mt-2">Read more</a>--}}
+                            <a href="{{ route('workers.working.show', $working) }}" class="btn btn-outline-secondary mt-2">Read more</a>
 {{--                            <a href="{{ route('workers.edit', $worker) }}" class="btn btn-outline-success w-25 mt-2">Edit</a>--}}
 {{--                            <form action="{{ route('workers.destroy', $worker) }}" method="post" class="">--}}
 {{--                                @csrf--}}
