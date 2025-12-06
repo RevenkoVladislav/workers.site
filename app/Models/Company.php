@@ -11,7 +11,7 @@ class Company extends Model
     use HasFactory;
 
     protected $table = 'companies';
-    protected $guarded = ['name', 'description'];
+    protected $fillable = ['name', 'description'];
 
     public function managers(): HasMany
     {
