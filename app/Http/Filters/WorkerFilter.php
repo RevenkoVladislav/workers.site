@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class WorkerFilter
 {
+    private array $params;
     const NAME = 'name';
     const SURNAME = 'surname';
     const EMAIL = 'email';
@@ -15,6 +16,35 @@ class WorkerFilter
     const PHONE = 'phone';
     const DESCRIPTION = 'description';
     const IS_MARRIED = 'is_married';
+
+    public function __construct(array $params)
+    {
+        $this->params = $params;
+    }
+
+    public function getCallbacks(): array
+    {
+        return [
+            self::NAME => 'name',
+            self::SURNAME => 'surname',
+            self::EMAIL => 'email',
+            self::AGE => 'age',
+            self::AGE_FROM => 'ageFrom',
+            self::AGE_TO => 'ageTo',
+            self::PHONE => 'phone',
+            self::DESCRIPTION => 'description',
+            self::IS_MARRIED => 'isMarried',
+        ];
+    }
+
+    public function applyFilter()
+    {
+        foreach ($this->getCallbacks() as $key => $callback) {
+            if (isset($this->params[$key])){
+                $this->$callback();
+            }
+        }
+    }
 
     public function name(Builder $builder, $value)
     {
