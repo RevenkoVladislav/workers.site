@@ -13,7 +13,7 @@ class CheckRole
     {
         $user = auth()->user();
 
-        //пользователь не аворизонва - вернуть на логин
+        //пользователь не авторизован - вернуть на логин
         if(!$user) {
             return redirect()->route('login');
         }
