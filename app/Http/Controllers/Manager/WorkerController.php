@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\WorkerFilter;
 use App\Http\Requests\Worker\StoreUpdateRequest;
 use App\Mail\User\PasswordMail;
+use App\Models\User;
 use App\Models\Worker;
 use App\Services\WorkerSearchService;
 use Illuminate\Http\Request;
@@ -16,9 +18,17 @@ class WorkerController extends Controller
 {
     public function index(Request $request, WorkerSearchService $searchService)
     {
-        $workers = $searchService->search($request);
-        $search = $request->get('search');
-        return view('manager.worker.index', compact('workers', 'search'));
+        $data = $request->all();
+        $query = Worker::query()->join('users', 'users.id', '=', 'workers.user_id')
+            ->select('workers.*');
+        $filter = new WorkerFilter($data);
+        $filter->applyFilter($query);
+
+        $workers = $query->paginate(4);
+
+//        $workers = $searchService->search($request);
+//        $search = $request->get('search');
+        return view('manager.worker.index', compact('workers'));
     }
 
     public function create()

@@ -37,11 +37,11 @@ class WorkerFilter
         ];
     }
 
-    public function applyFilter()
+    public function applyFilter(Builder $builder)
     {
         foreach ($this->getCallbacks() as $key => $callback) {
             if (isset($this->params[$key])){
-                $this->$callback();
+                $this->$callback($builder, $this->params[$key]);
             }
         }
     }

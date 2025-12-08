@@ -1,4 +1,10 @@
 <x-layout.main>
+    <div>
+        <form action="{{ route('workers.index') }}" method="get">
+            <x-forms.input name="name" label="name" placeholder="name"/>
+            <button type="submit" class="w-100 btn btn-secondary">Filter</button>
+        </form>
+    </div>
     @if($workers->count())
     <div class="row row-cols-1 row-cols-md-3 mt-3 mb-lg-auto">
         @foreach($workers as $worker)
