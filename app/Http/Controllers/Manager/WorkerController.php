@@ -3,28 +3,40 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
-use App\Http\Filters\WorkerFilter;
+use App\Http\Filters\Worker\WorkerFilter;
+use App\Http\Filters\Worker\WorkerPipeline\WorkerAge;
+use App\Http\Filters\Worker\WorkerPipeline\WorkerName;
 use App\Http\Requests\Worker\StoreUpdateRequest;
-use App\Mail\User\PasswordMail;
-use App\Models\User;
 use App\Models\Worker;
 use App\Services\WorkerSearchService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
+use Illuminate\Pipeline\Pipeline;
 
 class WorkerController extends Controller
 {
     public function index(Request $request, WorkerSearchService $searchService)
     {
-        $data = $request->all();
+        //Объект query builder с user + workers для фильтра
         $query = Worker::query()->join('users', 'users.id', '=', 'workers.user_id')
             ->select('workers.*');
-        $filter = new WorkerFilter($data);
-        $filter->applyFilter($query);
 
-        $workers = $query->paginate(6);
+//        Вариант с обычным Filter
+//        $data = $request->all();
+//        $filter = new WorkerFilter($data);
+//        $filter->applyFilter($query);
+//        $workers = $query->paginate(6);
+
+        //создаем Pipeline и отправляем в него query builder с user+workers
+        //пройди по следующим фильтрам through
+        $workers = app()->make(Pipeline::class)
+            ->send($query)
+            ->through([
+                WorkerAge::class,
+                WorkerName::class,
+            ])
+            ->thenReturn();
+
+        dd($workers->get());
 
 //        $workers = $searchService->search($request);
 //        $search = $request->get('search');
