@@ -5,7 +5,13 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\Worker\WorkerFilter;
 use App\Http\Filters\Worker\WorkerPipeline\WorkerAge;
+use App\Http\Filters\Worker\WorkerPipeline\WorkerAgeFrom;
+use App\Http\Filters\Worker\WorkerPipeline\WorkerAgeTo;
+use App\Http\Filters\Worker\WorkerPipeline\WorkerEmail;
 use App\Http\Filters\Worker\WorkerPipeline\WorkerName;
+use App\Http\Filters\Worker\WorkerPipeline\WorkerPhone;
+use App\Http\Filters\Worker\WorkerPipeline\WorkerSurname;
+use App\Http\Requests\Manager\Worker\WorkerPipelineSearchRequest;
 use App\Http\Requests\Worker\StoreUpdateRequest;
 use App\Models\Worker;
 use App\Services\WorkerSearchService;
@@ -14,7 +20,7 @@ use Illuminate\Pipeline\Pipeline;
 
 class WorkerController extends Controller
 {
-    public function index(Request $request, WorkerSearchService $searchService)
+    public function index(WorkerPipelineSearchRequest $request, WorkerSearchService $searchService)
     {
         //Объект query builder с user + workers для фильтра
         $query = Worker::query()->join('users', 'users.id', '=', 'workers.user_id')
@@ -31,12 +37,17 @@ class WorkerController extends Controller
         $workers = app()->make(Pipeline::class)
             ->send($query)
             ->through([
-                WorkerAge::class,
                 WorkerName::class,
+                WorkerSurname::class,
+                WorkerAge::class,
+                WorkerAgeFrom::class,
+                WorkerAgeTo::class,
+                WorkerEmail::class,
+                WorkerPhone::class,
             ])
             ->thenReturn();
 
-        dd($workers->get());
+        $workers = $workers->paginate(6);
 
 //        $workers = $searchService->search($request);
 //        $search = $request->get('search');

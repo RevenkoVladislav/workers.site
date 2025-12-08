@@ -2,7 +2,7 @@
 
 namespace App\Http\Filters\Worker\WorkerPipeline;
 
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class WorkerPhone
 {
