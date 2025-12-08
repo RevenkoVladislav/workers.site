@@ -24,7 +24,7 @@ class WorkerController extends Controller
         $filter = new WorkerFilter($data);
         $filter->applyFilter($query);
 
-        $workers = $query->paginate(4);
+        $workers = $query->paginate(6);
 
 //        $workers = $searchService->search($request);
 //        $search = $request->get('search');

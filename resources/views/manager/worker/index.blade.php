@@ -1,8 +1,19 @@
 <x-layout.main>
     <div>
-        <form action="{{ route('workers.index') }}" method="get">
-            <x-forms.input name="name" label="name" placeholder="name"/>
-            <button type="submit" class="w-100 btn btn-secondary">Filter</button>
+        <form action="{{ route('workers.index') }}" method="get" class="d-flex align-items-end gap-2 p-3 border rounded shadow-sm">
+            <x-forms.input name="name" label="Name" placeholder="name"/>
+            <x-forms.input name="surname" label="Surname" placeholder="Surname"/>
+            <x-forms.input name="email" label="Email" placeholder="Email"/>
+            <x-forms.input name="age" label="Age" placeholder="Age"/>
+            <x-forms.input name="age_from" label="Age From" placeholder="Age From"/>
+            <x-forms.input name="age_to" label="Age To" placeholder="Age To"/>
+            <x-forms.input name="phone" label="Phone" placeholder="Phone format (8**********)"/>
+            <div>
+                <label class="form-check-label">Married ?</label>
+                <input type="hidden" name="is_married" value="0">
+                <input type="checkbox" name="is_married" value="1" class="form-check-input mb-4">
+            </div>
+            <button type="submit" class="btn btn-secondary p-2 mb-3">Filter</button>
         </form>
     </div>
     @if($workers->count())
